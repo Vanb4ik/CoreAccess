@@ -1,0 +1,31 @@
+@page
+@using System.Security.Claims
+@model AuthorizationCore.Views.Home.Index
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+
+   @if (!User.Identities.Any(u => u.IsAuthenticated  && !string.IsNullOrEmpty(u.Name)))
+   {
+       <h2>User not authenticated</h2>
+   }
+   else
+   {
+       <h1>
+           Hello @User.Identities.FirstOrDefault(
+                          u => u.IsAuthenticated &&
+                               u.HasClaim(c => c.Type == ClaimTypes.Name))?.FindFirst(ClaimTypes.Name).Value
+       </h1>
+   }
+
+</body>
+</html>
